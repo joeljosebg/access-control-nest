@@ -70,9 +70,6 @@ http://localhost:3000/api-docs
 ```
 
 ```
-
-```
-
 access-control/
 ├── application/
 │ ├── services/
@@ -92,3 +89,4 @@ access-control/
 ├── decorators/
 │ └── permissions.decorator.ts
 └── controllers/
+```
