@@ -9,10 +9,12 @@ import {
   Injectable,
   Inject,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -25,6 +27,7 @@ import { USER_SERVICE } from '@/modules/user/user.tokens';
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { PermissionsGuard } from '@/modules/access-control/presentation/guards/permissions.guard';
+import { QueryOptionsDto } from '@/modules/shared/applications/dto/query-options.dto';
 import { RequirePermissions } from '@/modules/access-control/presentation/decorators/permissions.decorator';
 
 @ApiTags('users')
@@ -59,8 +62,22 @@ export class UserController {
     type: [UserEntity],
   })
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() queryOptions: QueryOptionsDto) {
+    return this.userService.findAll(queryOptions);
+  }
+
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('readAll:user')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all users paginated' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns all users',
+    type: [UserEntity],
+  })
+  @Get('paginated')
+  findAllPaginated(@Query() queryOptions: QueryOptionsDto) {
+    return this.userService.findAllPaginated(queryOptions);
   }
 
   @UseGuards(JwtAuthGuard, PermissionsGuard)
@@ -73,8 +90,8 @@ export class UserController {
     type: UserEntity,
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findById(id);
+  findOne(@Param('id') id: string, @Query() queryOptions: QueryOptionsDto) {
+    return this.userService.findOne(id, queryOptions);
   }
 
   @UseGuards(JwtAuthGuard, PermissionsGuard)

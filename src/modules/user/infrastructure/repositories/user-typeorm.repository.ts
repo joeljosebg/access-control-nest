@@ -5,7 +5,9 @@ import { IUserRepository } from '@/modules/user/domain/repositories/user-reposit
 import {
   CreateUserSaveDto,
   UpdateUserSaveDto,
-} from '../../application/dto/create-user.dto';
+} from '@/modules/user/application/dto/create-user.dto';
+import { applyQueryOptions } from '@/utils/query-builder.util';
+import { QueryOptionsDto } from '@/modules/shared/applications/dto/query-options.dto';
 
 @Injectable()
 export class UserTypeOrmRepository implements IUserRepository {
@@ -16,13 +18,57 @@ export class UserTypeOrmRepository implements IUserRepository {
   }
 
   async create(user: CreateUserSaveDto): Promise<UserEntity> {
-    console.log({ user });
     const newUser = this.repository.create(user);
     return this.repository.save(newUser);
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.repository.find();
+  async findAll(queryOptions: QueryOptionsDto): Promise<UserEntity[]> {
+    const query = this.repository.createQueryBuilder('users');
+    applyQueryOptions(
+      query,
+      queryOptions,
+      'users',
+      UserEntity,
+      this.dataSource,
+    );
+
+    const data = await query.getMany();
+    return data;
+  }
+  async findAllPaginated(queryOptions: QueryOptionsDto): Promise<{
+    data: UserEntity[];
+    total: number;
+  }> {
+    const query = this.repository.createQueryBuilder('users');
+    applyQueryOptions(
+      query,
+      queryOptions,
+      'users',
+      UserEntity,
+      this.dataSource,
+    );
+
+    const [data, total] = await query.getManyAndCount();
+    return { data, total };
+  }
+
+  async findOne(
+    id: string,
+    queryOptions: QueryOptionsDto,
+  ): Promise<UserEntity | null> {
+    const query = this.repository.createQueryBuilder('users');
+    applyQueryOptions(
+      query,
+      {
+        select: queryOptions.select,
+        relations: queryOptions.relations,
+      },
+      'users',
+      UserEntity,
+      this.dataSource,
+    );
+    query.andWhere('users.id = :id', { id });
+    return query.getOne();
   }
 
   async findById(id: string): Promise<UserEntity | null> {

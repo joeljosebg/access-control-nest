@@ -11,6 +11,7 @@ import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import {
   CreateUserDto,
   UpdateUserDto,
+  UserResponseDto,
 } from '@/modules/user/application/dto/create-user.dto';
 
 import { USER_REPOSITORY } from '@/modules/user/user.tokens';
@@ -19,6 +20,7 @@ import { IBcryptService } from '@/libs/bcrypt/bcrypt-service.interface';
 import { RoleEntity } from '@/modules/access-control/domain/entities/role.entity';
 import { ROLE_SERVICE } from '@/modules/access-control/access-control.tokens';
 import { IRolesService } from '@/modules/access-control/domain/interfaces/role-service.interface';
+import { QueryOptionsDto } from '@/modules/shared/applications/dto/query-options.dto';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -61,10 +63,38 @@ export class UserService implements IUserService {
     return this.userRepository.create(newUser);
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository.findAll();
+  async findAll(queryOptions: QueryOptionsDto): Promise<UserResponseDto[]> {
+    const data = await this.userRepository.findAll(queryOptions);
+    return data.map((user) => {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword as UserResponseDto;
+    });
+  }
+  async findAllPaginated(queryOptions: QueryOptionsDto): Promise<{
+    data: UserResponseDto[];
+    total: number;
+  }> {
+    const users = await this.userRepository.findAllPaginated(queryOptions);
+    return {
+      data: users.data.map((user) => {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword as UserResponseDto;
+      }),
+      total: users.total,
+    };
   }
 
+  async findOne(
+    id: string,
+    queryOptions: QueryOptionsDto,
+  ): Promise<UserResponseDto | null> {
+    const user = await this.userRepository.findOne(id, queryOptions);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword as UserResponseDto;
+  }
   async findById(id: string): Promise<UserEntity | null> {
     return this.userRepository.findById(id);
   }

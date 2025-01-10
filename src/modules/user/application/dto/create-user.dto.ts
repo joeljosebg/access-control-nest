@@ -9,6 +9,7 @@ import {
   IsOptional,
   IsArray,
 } from 'class-validator';
+import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 
 export class CreateUserDto {
   @ApiProperty({ description: 'Username del usuario', minimum: 3, maximum: 20 })
@@ -102,3 +103,5 @@ export class UpdateUserDto {
 export class UpdateUserSaveDto extends OmitType(UpdateUserDto, ['rolesIds']) {
   roles: RoleEntity[];
 }
+
+export class UserResponseDto extends OmitType(UserEntity, ['password']) {}
