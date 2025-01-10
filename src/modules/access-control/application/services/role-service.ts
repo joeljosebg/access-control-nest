@@ -3,13 +3,13 @@ import { Inject } from '@nestjs/common';
 import { RoleEntity } from '@/modules/access-control/domain/entities/role.entity';
 import { PermissionEntity } from '@/modules/access-control/domain/entities/permission.entity';
 import { CreateRoleDto } from '@/modules/access-control/application/dto/create-role.dto';
-import { IRoleRepository } from '@/modules/access-control/domain/repositories/role.repository';
+import { IRoleRepository } from '@/modules/access-control/domain/repositories/role-repository.interface';
 import {
   PERMISSION_REPOSITORY,
   ROLE_REPOSITORY,
-} from '../../roles-permissions.tokens';
-import { IRolesService } from '../../domain/interfaces/role-service.interface';
-import { IPermissionService } from '../../domain/interfaces/permission-service.interface';
+} from '@/modules/access-control/access-control.tokens';
+import { IRolesService } from '@/modules/access-control/domain/interfaces/role-service.interface';
+import { IPermissionService } from '@/modules/access-control/domain/interfaces/permission-service.interface';
 
 @Injectable()
 export class RoleService implements IRolesService {

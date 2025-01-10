@@ -1,0 +1,14 @@
+export const ROLE_SERVICE = Symbol('ROLES_SERVICE');
+export const PERMISSION_SERVICE = Symbol('PERMISSION_SERVICE');
+export const ENDPOINT_SERVICE = Symbol('ENDPOINT_SERVICE');
+export const ENTITY_SERVICE = Symbol('ENTITY_SERVICE');
+export const FIELD_SERVICE = Symbol('FIELD_SERVICE');
+export const RESOURCE_SERVICE = Symbol('RESOURCE_SERVICE');
+
+// repositories
+export const ROLE_REPOSITORY = Symbol('ROLE_REPOSITORY');
+export const PERMISSION_REPOSITORY = Symbol('PERMISSION_REPOSITORY');
+export const ENDPOINT_REPOSITORY = Symbol('ENDPOINT_REPOSITORY');
+export const ENTITY_REPOSITORY = Symbol('ENTITY_REPOSITORY');
+export const FIELD_REPOSITORY = Symbol('FIELD_REPOSITORY');
+export const RESOURCE_REPOSITORY = Symbol('RESOURCE_REPOSITORY');

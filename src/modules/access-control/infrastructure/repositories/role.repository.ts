@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoleEntity } from '@/modules/access-control/domain/entities/role.entity';
-import { IRoleRepository } from '@/modules/access-control/domain/repositories/role.repository';
+import { IRoleRepository } from '@/modules/access-control/domain/repositories/role-repository.interface';
 
 @Injectable()
 export class RoleRepository implements IRoleRepository {

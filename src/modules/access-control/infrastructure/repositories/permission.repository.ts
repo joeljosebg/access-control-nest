@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PermissionEntity } from '@/modules/access-control/domain/entities/permission.entity';
-import { IPermissionRepository } from '@/modules/access-control/domain/repositories/permission.repository';
+import { IPermissionRepository } from '@/modules/access-control/domain/repositories/permission-repository.interface';
+import { CreatePermissionDto } from '../../application/dto/create-permission.dto';
 
 @Injectable()
 export class PermissionRepository implements IPermissionRepository {
@@ -15,7 +16,7 @@ export class PermissionRepository implements IPermissionRepository {
     return this.repository.find();
   }
 
-  create(permission: PermissionEntity) {
+  create(permission: CreatePermissionDto) {
     return this.repository.save(permission);
   }
 

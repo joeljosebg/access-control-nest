@@ -4,7 +4,7 @@ import { DatabaseModule } from '@/libs/database/database.module';
 import { ValidationModule } from '@/libs/validation/validation.module';
 import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
-import { RolesPermissionsModule } from './modules/access-control/roles-permissions.module';
+import { AccessControlModule } from '@/modules/access-control/access-control.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { RolesPermissionsModule } from './modules/access-control/roles-permissio
     ConfigAppModule,
     ValidationModule,
     UserModule,
-    RolesPermissionsModule,
+    AccessControlModule,
   ],
   controllers: [],
   providers: [],

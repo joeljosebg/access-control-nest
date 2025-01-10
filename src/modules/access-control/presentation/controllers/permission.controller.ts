@@ -1,15 +1,23 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Injectable,
+  Post,
+} from '@nestjs/common';
 import { CreatePermissionDto } from '@/modules/access-control/application/dto/create-permission.dto';
-import { PERMISSIONS_SERVICE } from '../../roles-permissions.tokens';
-import { IPermissionService } from '../../domain/interfaces/permission-service.interface';
+import { PERMISSION_SERVICE } from '@/modules/access-control/access-control.tokens';
+import { IPermissionService } from '@/modules/access-control/domain/interfaces/permission-service.interface';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PermissionEntity } from '@/modules/access-control/domain/entities/permission.entity';
 
 @ApiTags('Permissions')
 @Controller('permissions')
+@Injectable()
 export class PermissionsController {
   constructor(
-    @Inject(PERMISSIONS_SERVICE)
+    @Inject(PERMISSION_SERVICE)
     private readonly permissionService: IPermissionService,
   ) {}
 

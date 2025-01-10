@@ -2,8 +2,8 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { PermissionEntity } from '@/modules/access-control/domain/entities/permission.entity';
 import { IPermissionService } from '@/modules/access-control/domain/interfaces/permission-service.interface';
-import { PERMISSION_REPOSITORY } from '@/modules/access-control/roles-permissions.tokens';
-import { IPermissionRepository } from '@/modules/access-control/domain/repositories/permission.repository';
+import { PERMISSION_REPOSITORY } from '@/modules/access-control/access-control.tokens';
+import { IPermissionRepository } from '@/modules/access-control/domain/repositories/permission-repository.interface';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
 
 @Injectable()

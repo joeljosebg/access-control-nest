@@ -1,15 +1,23 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Injectable,
+  Post,
+} from '@nestjs/common';
 import { CreateRoleDto } from '@/modules/access-control/application/dto/create-role.dto';
-import { ROLES_SERVICE } from '../../roles-permissions.tokens';
-import { IRolesService } from '../../domain/interfaces/role-service.interface';
+import { ROLE_SERVICE } from '@/modules/access-control/access-control.tokens';
+import { IRolesService } from '@/modules/access-control/domain/interfaces/role-service.interface';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RoleEntity } from '@/modules/access-control/domain/entities/role.entity';
 
 @ApiTags('Roles')
 @Controller('roles')
+@Injectable()
 export class RolesController {
   constructor(
-    @Inject(ROLES_SERVICE) private readonly roleService: IRolesService,
+    @Inject(ROLE_SERVICE) private readonly roleService: IRolesService,
   ) {}
 
   @ApiOperation({ summary: 'Get all roles' })
