@@ -39,3 +39,40 @@ export class CreatePermissionDto {
   @IsString()
   condition?: string;
 }
+
+export class UpdatePermissionDto {
+  @ApiPropertyOptional({
+    description: 'The name of the permission',
+    example: 'Create User',
+  })
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({
+    description: 'The description of the permission',
+    example: 'Create a user',
+  })
+  @IsString()
+  description?: string;
+
+  @ApiPropertyOptional({
+    description: 'The resource of the permission',
+    example: 'User, Document, Report',
+  })
+  @IsString()
+  resource?: string;
+
+  @ApiPropertyOptional({
+    description: 'The action of the permission',
+    example: 'create, read, update, delete',
+  })
+  @IsString()
+  action?: string;
+
+  @ApiPropertyOptional({
+    description: 'The condition of the permission',
+    example: 'if user is admin',
+  })
+  @IsString()
+  condition?: string;
+}

@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   CreateEntityDto,
@@ -15,8 +16,16 @@ import {
 } from '@/modules/access-control/application/dto/entity.dto';
 import { ENTITY_SERVICE } from '@/modules/access-control/access-control.tokens';
 import { IEntityService } from '@/modules/access-control/domain/interfaces/entity-service.interface';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { EntityEntity } from '@/modules/access-control/domain/entities/entity.entity';
+import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
+import { PermissionsGuard } from '@/modules/access-control/presentation/guards/permissions.guard';
+import { RequirePermissions } from '@/modules/access-control/presentation/decorators/permissions.decorator';
 
 @ApiTags('Entities')
 @Controller('entities')
@@ -27,6 +36,9 @@ export class EntitiesController {
     private readonly entityService: IEntityService,
   ) {}
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('readAll:entity')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all resources' })
   @ApiResponse({
     status: 200,
@@ -38,6 +50,9 @@ export class EntitiesController {
     return this.entityService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('create:entity')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a entity' })
   @ApiResponse({
     status: 201,
@@ -49,6 +64,9 @@ export class EntitiesController {
     return this.entityService.create(createEntityDto);
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('update:entity')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a resource' })
   @ApiResponse({
     status: 200,
@@ -63,6 +81,9 @@ export class EntitiesController {
     return this.entityService.update(id, updateEntityDto);
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions('delete:entity')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a entity' })
   @ApiResponse({
     status: 200,

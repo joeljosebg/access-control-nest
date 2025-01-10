@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 import { IUserRepository } from '@/modules/user/domain/repositories/user-repository.interface';
+import {
+  CreateUserSaveDto,
+  UpdateUserSaveDto,
+} from '../../application/dto/create-user.dto';
 
 @Injectable()
 export class UserTypeOrmRepository implements IUserRepository {
@@ -11,7 +15,8 @@ export class UserTypeOrmRepository implements IUserRepository {
     this.repository = this.dataSource.getRepository(UserEntity);
   }
 
-  async create(user: UserEntity): Promise<UserEntity> {
+  async create(user: CreateUserSaveDto): Promise<UserEntity> {
+    console.log({ user });
     const newUser = this.repository.create(user);
     return this.repository.save(newUser);
   }
@@ -24,7 +29,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     return this.repository.findOneBy({ id });
   }
 
-  async update(id: string, user: Partial<UserEntity>): Promise<UserEntity> {
+  async update(id: string, user: UpdateUserSaveDto): Promise<UserEntity> {
     await this.repository.update(id, user);
     return this.findById(id);
   }

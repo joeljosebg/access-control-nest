@@ -21,7 +21,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    const user = await this.authService.validateUser(loginDto);
+    const user = await this.authService.login(loginDto);
     return { message: 'Login successful', ...user };
   }
   @Post('refresh-token') // Nuevo endpoint para refresh token

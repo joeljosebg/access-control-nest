@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString, ArrayNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { PermissionEntity } from '../../domain/entities/permission.entity';
 
 export class CreateRoleDto {
   @ApiProperty({
@@ -15,5 +16,34 @@ export class CreateRoleDto {
     example: ['1', '2', '3'],
   })
   @ArrayNotEmpty()
-  permissions: string[]; // IDs de permisos
+  permissionIds: string[]; // IDs de permisos
+}
+
+export class CreateRoleSaveDto extends OmitType(CreateRoleDto, [
+  'permissionIds',
+]) {
+  permissions: PermissionEntity[];
+}
+
+export class UpdateRoleDto {
+  @ApiProperty({
+    description: 'The name of the role',
+    example: 'Admin',
+  })
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @ApiProperty({
+    description: 'The permissions of the role',
+    example: ['1', '2', '3'],
+  })
+  @ArrayNotEmpty()
+  permissionIds: string[]; // IDs de permisos
+}
+
+export class UpdateRoleSaveDto extends OmitType(UpdateRoleDto, [
+  'permissionIds',
+]) {
+  permissions: PermissionEntity[];
 }

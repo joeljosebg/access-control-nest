@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoleEntity } from '@/modules/access-control/domain/entities/role.entity';
 import { PermissionEntity } from '@/modules/access-control/domain/entities/permission.entity';
@@ -30,16 +30,18 @@ import { ResourceRepository } from '@/modules/access-control/infrastructure/repo
 import { EndpointEntity } from '@/modules/access-control/domain/entities/endpoint.entity';
 import { FieldEntity } from '@/modules/access-control/domain/entities/field.entity';
 import { EntityEntity } from '@/modules/access-control/domain/entities/entity.entity';
-import { EndpointRepository } from './infrastructure/repositories/endpoint.repository';
-import { FieldRepository } from './infrastructure/repositories/field.repository';
-import { EntityRepository } from './infrastructure/repositories/entity.repository';
-import { RoleService } from './application/services/role-service';
-import { EntityService } from './application/services/entity.service';
-import { FieldService } from './application/services/field.service';
-import { EndpointService } from './application/services/endpoint.service';
-import { EntitiesController } from './presentation/controllers/entity.controller';
-import { EndpointsController } from './presentation/controllers/endpoint.controller';
-import { FieldsController } from './presentation/controllers/field.controller';
+import { EndpointRepository } from '@/modules/access-control/infrastructure/repositories/endpoint.repository';
+import { FieldRepository } from '@/modules/access-control/infrastructure/repositories/field.repository';
+import { EntityRepository } from '@/modules/access-control/infrastructure/repositories/entity.repository';
+import { RoleService } from '@/modules/access-control/application/services/role-service';
+import { EntityService } from '@/modules/access-control/application/services/entity.service';
+import { FieldService } from '@/modules/access-control/application/services/field.service';
+import { EndpointService } from '@/modules/access-control/application/services/endpoint.service';
+import { EntitiesController } from '@/modules/access-control/presentation/controllers/entity.controller';
+import { EndpointsController } from '@/modules/access-control/presentation/controllers/endpoint.controller';
+import { FieldsController } from '@/modules/access-control/presentation/controllers/field.controller';
+import { AuthModule } from '@/modules/auth/auth.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -51,6 +53,8 @@ import { FieldsController } from './presentation/controllers/field.controller';
       EntityEntity,
       FieldEntity,
     ]),
+    forwardRef(() => AuthModule),
+    forwardRef(() => UserModule),
   ],
   controllers: [
     RolesController,

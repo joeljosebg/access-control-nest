@@ -4,7 +4,10 @@ import { PermissionEntity } from '@/modules/access-control/domain/entities/permi
 import { IPermissionService } from '@/modules/access-control/domain/interfaces/permission-service.interface';
 import { PERMISSION_REPOSITORY } from '@/modules/access-control/access-control.tokens';
 import { IPermissionRepository } from '@/modules/access-control/domain/repositories/permission-repository.interface';
-import { CreatePermissionDto } from '../dto/create-permission.dto';
+import {
+  CreatePermissionDto,
+  UpdatePermissionDto,
+} from '../dto/create-permission.dto';
 
 @Injectable()
 export class PermissionService implements IPermissionService {
@@ -38,5 +41,18 @@ export class PermissionService implements IPermissionService {
       throw new NotFoundException(`Permission with ID "${id}" not found`);
     }
     return found;
+  }
+
+  async update(
+    id: string,
+    updatePermissionDto: UpdatePermissionDto,
+  ): Promise<void> {
+    const permission = await this.getById(id);
+    permission.name = updatePermissionDto.name;
+    await this.permissionRepository.update(id, permission);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.permissionRepository.delete(id);
   }
 }

@@ -8,6 +8,7 @@ import { BCRYPT_SERVICE } from '@/libs/bcrypt/bcrypt.token';
 import { IBcryptService } from '@/libs/bcrypt/bcrypt-service.interface';
 import { IJwtService } from '@/libs/jwt/jwt-service.interface';
 import { JWT_SERVICE } from '@/libs/jwt/jwt.module';
+import { UserEntity } from '../user/domain/entities/user.entity';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
@@ -16,7 +17,23 @@ export class AuthService implements IAuthService {
     @Inject(JWT_SERVICE) private jwtService: IJwtService,
   ) {}
 
-  async validateUser(
+  async validateUser(loginDto: LoginDto): Promise<UserEntity | null> {
+    const user = await this.userService.findByEmail(loginDto.email);
+    if (user) {
+      return user;
+    }
+
+    throw null;
+  }
+  async validateUserId(userId: string): Promise<UserEntity | null> {
+    const user = await this.userService.findById(userId);
+    if (user) {
+      return user;
+    }
+
+    throw null;
+  }
+  async login(
     loginDto: LoginDto,
   ): Promise<{ accessToken: string; refreshToken: string } | null> {
     const user = await this.userService.findByEmail(loginDto.email);
