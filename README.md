@@ -90,3 +90,8 @@ access-control/
 │ └── permissions.decorator.ts
 └── controllers/
 ```
+
+Datos de contacto:
+
+- Nombre: Joel José Bolivar Gutiérrez
+- LinkedIn: [Joel José Bolivar Gutiérrez](https://www.linkedin.com/in/joeljb/)
