@@ -53,6 +53,10 @@ export class CreateUserDto {
   rolesIds: string[];
 }
 
+export class CreateUserWithOutRolesDto extends OmitType(CreateUserDto, [
+  'rolesIds',
+]) {}
+
 export class CreateUserSaveDto extends OmitType(CreateUserDto, ['rolesIds']) {
   roles: RoleEntity[];
 }

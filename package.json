@@ -1,8 +1,8 @@
 {
-  "name": "generetar-nest",
+  "name": "access-control-nest",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Access Control Nest",
+  "author": "Joel Bolivar",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

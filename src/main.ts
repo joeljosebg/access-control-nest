@@ -8,6 +8,8 @@ async function bootstrap() {
   SwaggerAppModule.configureSwagger(app);
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  await app.listen(3500);
+  app.enableCors();
+
+  await app.listen(process.env.PORT);
 }
 bootstrap();

@@ -33,7 +33,7 @@ export class UserService implements IUserService {
     private readonly roleService: IRolesService,
   ) {}
 
-  async create(user: CreateUserDto): Promise<UserEntity> {
+  async create(user: CreateUserDto): Promise<Omit<UserEntity, 'password'>> {
     const { rolesIds, ...userWithoutRoles } = user;
     const hashedPassword = await this.bcryptService.hash(user.password);
     // validate email
@@ -60,7 +60,9 @@ export class UserService implements IUserService {
       roles: validRoles,
     };
 
-    return this.userRepository.create(newUser);
+    const createdUser = await this.userRepository.create(newUser);
+    const { password, ...userWithoutPassword } = createdUser;
+    return userWithoutPassword as Omit<UserEntity, 'password'>;
   }
 
   async findAll(queryOptions: QueryOptionsDto): Promise<UserResponseDto[]> {

@@ -6,8 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 export class SwaggerAppModule {
   static configureSwagger(app: INestApplication): void {
     const config = new DocumentBuilder()
-      .setTitle('Generator API')
-      .setDescription('API documentation for Generator application')
+      .setTitle('Access Control API')
+      .setDescription('API documentation for Access Control application')
       .setVersion('1.0')
       .addBearerAuth()
       .build();
