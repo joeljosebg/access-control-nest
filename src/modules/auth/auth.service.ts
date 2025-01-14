@@ -9,7 +9,10 @@ import { IBcryptService } from '@/libs/bcrypt/bcrypt-service.interface';
 import { IJwtService } from '@/libs/jwt/jwt-service.interface';
 import { JWT_SERVICE } from '@/libs/jwt/jwt.module';
 import { UserEntity } from '../user/domain/entities/user.entity';
-import { CreateUserWithOutRolesDto } from '../user/application/dto/create-user.dto';
+import {
+  CreateUserWithOutRolesDto,
+  UserResponseWithOutPasswordDto,
+} from '../user/application/dto/create-user.dto';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
@@ -57,7 +60,9 @@ export class AuthService implements IAuthService {
     throw new UnauthorizedException('Invalid credentials');
   }
 
-  async signup(user: CreateUserWithOutRolesDto): Promise<UserEntity | null> {
+  async signup(
+    user: CreateUserWithOutRolesDto,
+  ): Promise<UserResponseWithOutPasswordDto | null> {
     const newUser = await this.userService.create({
       ...user,
       rolesIds: ['d8be3d49-df66-4293-ab64-b8bd381d6b4c'],

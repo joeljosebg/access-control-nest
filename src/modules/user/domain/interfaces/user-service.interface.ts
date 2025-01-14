@@ -3,11 +3,12 @@ import {
   CreateUserDto,
   UpdateUserDto,
   UserResponseDto,
+  UserResponseWithOutPasswordDto,
 } from '@/modules/user/application/dto/create-user.dto';
 import { UserEntity } from '@/modules/user/domain/entities/user.entity';
 
 export interface IUserService {
-  create(user: CreateUserDto): Promise<Omit<UserEntity, 'password'>>;
+  create(user: CreateUserDto): Promise<UserResponseWithOutPasswordDto>;
   findAll(queryOptions: QueryOptionsDto): Promise<UserResponseDto[]>;
   findAllPaginated(queryOptions: QueryOptionsDto): Promise<{
     data: UserResponseDto[];

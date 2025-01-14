@@ -109,3 +109,7 @@ export class UpdateUserSaveDto extends OmitType(UpdateUserDto, ['rolesIds']) {
 }
 
 export class UserResponseDto extends OmitType(UserEntity, ['password']) {}
+
+export class UserResponseWithOutPasswordDto extends OmitType(UserEntity, [
+  'password',
+]) {}

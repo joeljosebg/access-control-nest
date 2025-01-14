@@ -12,6 +12,7 @@ import {
   CreateUserDto,
   UpdateUserDto,
   UserResponseDto,
+  UserResponseWithOutPasswordDto,
 } from '@/modules/user/application/dto/create-user.dto';
 
 import { USER_REPOSITORY } from '@/modules/user/user.tokens';
@@ -33,7 +34,7 @@ export class UserService implements IUserService {
     private readonly roleService: IRolesService,
   ) {}
 
-  async create(user: CreateUserDto): Promise<Omit<UserEntity, 'password'>> {
+  async create(user: CreateUserDto): Promise<UserResponseWithOutPasswordDto> {
     const { rolesIds, ...userWithoutRoles } = user;
     const hashedPassword = await this.bcryptService.hash(user.password);
     // validate email
@@ -62,7 +63,7 @@ export class UserService implements IUserService {
 
     const createdUser = await this.userRepository.create(newUser);
     const { password, ...userWithoutPassword } = createdUser;
-    return userWithoutPassword as Omit<UserEntity, 'password'>;
+    return userWithoutPassword as UserResponseWithOutPasswordDto;
   }
 
   async findAll(queryOptions: QueryOptionsDto): Promise<UserResponseDto[]> {

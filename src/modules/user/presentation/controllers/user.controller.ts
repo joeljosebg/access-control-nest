@@ -21,6 +21,7 @@ import {
 import {
   CreateUserDto,
   UpdateUserDto,
+  UserResponseWithOutPasswordDto,
 } from '@/modules/user/application/dto/create-user.dto';
 import { IUserService } from '@/modules/user/domain/interfaces/user-service.interface';
 import { USER_SERVICE } from '@/modules/user/user.tokens';
@@ -48,7 +49,9 @@ export class UserController {
     type: UserEntity,
   })
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<UserResponseWithOutPasswordDto> {
     return this.userService.create(createUserDto);
   }
 
